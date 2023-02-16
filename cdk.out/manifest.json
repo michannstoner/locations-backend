@@ -1,0 +1,324 @@
+{
+  "version": "29.0.0",
+  "artifacts": {
+    "Locations.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "Locations.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "Locations": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "Locations.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0ae930f9e6564f868d817f7dc132deaa0671ca93a45d2779546fe09e8c27a927.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "Locations.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "Locations.assets"
+      ],
+      "metadata": {
+        "/Locations/LocationsApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApi2E0FF0DA"
+          }
+        ],
+        "/Locations/LocationsApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApiCloudWatchRole4F98F21A"
+          }
+        ],
+        "/Locations/LocationsApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApiAccount1A217CE9"
+          }
+        ],
+        "/Locations/LocationsApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApiDeployment6681EF0Cccdd7f794bee505c0f2574f6399bee31"
+          }
+        ],
+        "/Locations/LocationsApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApiDeploymentStageprodE076A7DE"
+          }
+        ],
+        "/Locations/LocationsApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApiEndpoint3AF4F310"
+          }
+        ],
+        "/Locations/LocationsApi/Default/hello/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApihello004663A8"
+          }
+        ],
+        "/Locations/LocationsApi/Default/hello/GET/ApiPermission.LocationsLocationsApi1A544835.GET..hello": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApihelloGETApiPermissionLocationsLocationsApi1A544835GEThelloFFC03593"
+          }
+        ],
+        "/Locations/LocationsApi/Default/hello/GET/ApiPermission.Test.LocationsLocationsApi1A544835.GET..hello": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApihelloGETApiPermissionTestLocationsLocationsApi1A544835GEThello961FD715"
+          }
+        ],
+        "/Locations/LocationsApi/Default/hello/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApihelloGETB678CB7B"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsF7962A31"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/POST/ApiPermission.LocationsLocationsApi1A544835.POST..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPOSTApiPermissionLocationsLocationsApi1A544835POSTlocations8A35BFD3"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/POST/ApiPermission.Test.LocationsLocationsApi1A544835.POST..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPOSTApiPermissionTestLocationsLocationsApi1A544835POSTlocationsF125BB7D"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPOST790F5ECE"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/GET/ApiPermission.LocationsLocationsApi1A544835.GET..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsGETApiPermissionLocationsLocationsApi1A544835GETlocations14CFBB2E"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/GET/ApiPermission.Test.LocationsLocationsApi1A544835.GET..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsGETApiPermissionTestLocationsLocationsApi1A544835GETlocations5C06D5D6"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsGET843B77DC"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/PUT/ApiPermission.LocationsLocationsApi1A544835.PUT..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPUTApiPermissionLocationsLocationsApi1A544835PUTlocations34C11808"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/PUT/ApiPermission.Test.LocationsLocationsApi1A544835.PUT..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPUTApiPermissionTestLocationsLocationsApi1A544835PUTlocations6253D1B5"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsPUTA98A0D27"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/DELETE/ApiPermission.LocationsLocationsApi1A544835.DELETE..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsDELETEApiPermissionLocationsLocationsApi1A544835DELETElocationsE4F76EA4"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/DELETE/ApiPermission.Test.LocationsLocationsApi1A544835.DELETE..locations": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsDELETEApiPermissionTestLocationsLocationsApi1A544835DELETElocationsC6351B43"
+          }
+        ],
+        "/Locations/LocationsApi/Default/locations/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsApilocationsDELETE07A9C7C1"
+          }
+        ],
+        "/Locations/LocationsTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "LocationsTable963AECFA"
+            }
+          }
+        ],
+        "/Locations/LocationsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTable963AECFA"
+          }
+        ],
+        "/Locations/LocationsTable-Create/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableCreateServiceRoleC19AB039"
+          }
+        ],
+        "/Locations/LocationsTable-Create/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableCreateServiceRoleDefaultPolicyC29EB007"
+          }
+        ],
+        "/Locations/LocationsTable-Create/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableCreate98F098F8"
+          }
+        ],
+        "/Locations/LocationsTable-Read/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableReadServiceRoleFD6EC740"
+          }
+        ],
+        "/Locations/LocationsTable-Read/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableReadServiceRoleDefaultPolicyF8E83DBA"
+          }
+        ],
+        "/Locations/LocationsTable-Read/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableRead3956C3FB"
+          }
+        ],
+        "/Locations/LocationsTable-Update/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableUpdateServiceRoleAD970CFE"
+          }
+        ],
+        "/Locations/LocationsTable-Update/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableUpdateServiceRoleDefaultPolicyF3A9BC30"
+          }
+        ],
+        "/Locations/LocationsTable-Update/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableUpdate1CC76FAE"
+          }
+        ],
+        "/Locations/LocationsTable-Delete/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableDeleteServiceRole549C244E"
+          }
+        ],
+        "/Locations/LocationsTable-Delete/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableDeleteServiceRoleDefaultPolicyE7082B82"
+          }
+        ],
+        "/Locations/LocationsTable-Delete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LocationsTableDelete18FF2907"
+          }
+        ],
+        "/Locations/helloLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "helloLambdaServiceRoleBB046714"
+          }
+        ],
+        "/Locations/helloLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "helloLambda79DCE371"
+          }
+        ],
+        "/Locations/helloLambdaNodeJs/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "helloLambdaNodeJsServiceRole17C143C3"
+          }
+        ],
+        "/Locations/helloLambdaNodeJs/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C"
+          }
+        ],
+        "/Locations/helloLambdaNodeJs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "helloLambdaNodeJs14E63891"
+          }
+        ],
+        "/Locations/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/Locations/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/Locations/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Locations/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Locations"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

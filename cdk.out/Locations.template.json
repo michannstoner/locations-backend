@@ -1,0 +1,1672 @@
+{
+ "Resources": {
+  "LocationsApi2E0FF0DA": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "LocationsApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Resource"
+   }
+  },
+  "LocationsApiCloudWatchRole4F98F21A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/CloudWatchRole/Resource"
+   }
+  },
+  "LocationsApiAccount1A217CE9": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "LocationsApiCloudWatchRole4F98F21A",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LocationsApi2E0FF0DA"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Account"
+   }
+  },
+  "LocationsApiDeployment6681EF0Cccdd7f794bee505c0f2574f6399bee31": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "LocationsApihelloGETB678CB7B",
+    "LocationsApihello004663A8",
+    "LocationsApilocationsDELETE07A9C7C1",
+    "LocationsApilocationsGET843B77DC",
+    "LocationsApilocationsPOST790F5ECE",
+    "LocationsApilocationsPUTA98A0D27",
+    "LocationsApilocationsF7962A31"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Deployment/Resource"
+   }
+  },
+  "LocationsApiDeploymentStageprodE076A7DE": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "DeploymentId": {
+     "Ref": "LocationsApiDeployment6681EF0Cccdd7f794bee505c0f2574f6399bee31"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "LocationsApiAccount1A217CE9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "LocationsApihello004663A8": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "LocationsApi2E0FF0DA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "hello",
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/hello/Resource"
+   }
+  },
+  "LocationsApihelloGETApiPermissionLocationsLocationsApi1A544835GEThelloFFC03593": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "helloLambda79DCE371",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/",
+       {
+        "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+       },
+       "/GET/hello"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/hello/GET/ApiPermission.LocationsLocationsApi1A544835.GET..hello"
+   }
+  },
+  "LocationsApihelloGETApiPermissionTestLocationsLocationsApi1A544835GEThello961FD715": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "helloLambda79DCE371",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/test-invoke-stage/GET/hello"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/hello/GET/ApiPermission.Test.LocationsLocationsApi1A544835.GET..hello"
+   }
+  },
+  "LocationsApihelloGETB678CB7B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "LocationsApihello004663A8"
+    },
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "helloLambda79DCE371",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/hello/GET/Resource"
+   }
+  },
+  "LocationsApilocationsF7962A31": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "LocationsApi2E0FF0DA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "locations",
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/Resource"
+   }
+  },
+  "LocationsApilocationsPOSTApiPermissionLocationsLocationsApi1A544835POSTlocations8A35BFD3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableCreate98F098F8",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/",
+       {
+        "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+       },
+       "/POST/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/POST/ApiPermission.LocationsLocationsApi1A544835.POST..locations"
+   }
+  },
+  "LocationsApilocationsPOSTApiPermissionTestLocationsLocationsApi1A544835POSTlocationsF125BB7D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableCreate98F098F8",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/test-invoke-stage/POST/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/POST/ApiPermission.Test.LocationsLocationsApi1A544835.POST..locations"
+   }
+  },
+  "LocationsApilocationsPOST790F5ECE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "POST",
+    "ResourceId": {
+     "Ref": "LocationsApilocationsF7962A31"
+    },
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "LocationsTableCreate98F098F8",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/POST/Resource"
+   }
+  },
+  "LocationsApilocationsGETApiPermissionLocationsLocationsApi1A544835GETlocations14CFBB2E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableRead3956C3FB",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/",
+       {
+        "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+       },
+       "/GET/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/GET/ApiPermission.LocationsLocationsApi1A544835.GET..locations"
+   }
+  },
+  "LocationsApilocationsGETApiPermissionTestLocationsLocationsApi1A544835GETlocations5C06D5D6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableRead3956C3FB",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/test-invoke-stage/GET/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/GET/ApiPermission.Test.LocationsLocationsApi1A544835.GET..locations"
+   }
+  },
+  "LocationsApilocationsGET843B77DC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "LocationsApilocationsF7962A31"
+    },
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "LocationsTableRead3956C3FB",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/GET/Resource"
+   }
+  },
+  "LocationsApilocationsPUTApiPermissionLocationsLocationsApi1A544835PUTlocations34C11808": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableUpdate1CC76FAE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/",
+       {
+        "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+       },
+       "/PUT/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/PUT/ApiPermission.LocationsLocationsApi1A544835.PUT..locations"
+   }
+  },
+  "LocationsApilocationsPUTApiPermissionTestLocationsLocationsApi1A544835PUTlocations6253D1B5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableUpdate1CC76FAE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/test-invoke-stage/PUT/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/PUT/ApiPermission.Test.LocationsLocationsApi1A544835.PUT..locations"
+   }
+  },
+  "LocationsApilocationsPUTA98A0D27": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "PUT",
+    "ResourceId": {
+     "Ref": "LocationsApilocationsF7962A31"
+    },
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "LocationsTableUpdate1CC76FAE",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/PUT/Resource"
+   }
+  },
+  "LocationsApilocationsDELETEApiPermissionLocationsLocationsApi1A544835DELETElocationsE4F76EA4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableDelete18FF2907",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/",
+       {
+        "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+       },
+       "/DELETE/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/DELETE/ApiPermission.LocationsLocationsApi1A544835.DELETE..locations"
+   }
+  },
+  "LocationsApilocationsDELETEApiPermissionTestLocationsLocationsApi1A544835DELETElocationsC6351B43": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "LocationsTableDelete18FF2907",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "LocationsApi2E0FF0DA"
+       },
+       "/test-invoke-stage/DELETE/locations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/DELETE/ApiPermission.Test.LocationsLocationsApi1A544835.DELETE..locations"
+   }
+  },
+  "LocationsApilocationsDELETE07A9C7C1": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "DELETE",
+    "ResourceId": {
+     "Ref": "LocationsApilocationsF7962A31"
+    },
+    "RestApiId": {
+     "Ref": "LocationsApi2E0FF0DA"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "LocationsTableDelete18FF2907",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsApi/Default/locations/DELETE/Resource"
+   }
+  },
+  "LocationsTable963AECFA": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "locationId",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "locationId",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "LocationsTable"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable/Resource"
+   }
+  },
+  "LocationsTableCreateServiceRoleC19AB039": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Create/ServiceRole/Resource"
+   }
+  },
+  "LocationsTableCreateServiceRoleDefaultPolicyC29EB007": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LocationsTable963AECFA",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LocationsTableCreateServiceRoleDefaultPolicyC29EB007",
+    "Roles": [
+     {
+      "Ref": "LocationsTableCreateServiceRoleC19AB039"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Create/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LocationsTableCreate98F098F8": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "b240d495db66efe8dae7e6801ccbe3fd096d5d942356d0233f2524a8508bcf75.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LocationsTableCreateServiceRoleC19AB039",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": "LocationsTable",
+      "PRIMARY_KEY": "locationId",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "LocationsTable-Create",
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "LocationsTableCreateServiceRoleDefaultPolicyC29EB007",
+    "LocationsTableCreateServiceRoleC19AB039"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Create/Resource",
+    "aws:asset:path": "asset.b240d495db66efe8dae7e6801ccbe3fd096d5d942356d0233f2524a8508bcf75",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LocationsTableReadServiceRoleFD6EC740": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Read/ServiceRole/Resource"
+   }
+  },
+  "LocationsTableReadServiceRoleDefaultPolicyF8E83DBA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LocationsTable963AECFA",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LocationsTableReadServiceRoleDefaultPolicyF8E83DBA",
+    "Roles": [
+     {
+      "Ref": "LocationsTableReadServiceRoleFD6EC740"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Read/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LocationsTableRead3956C3FB": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "cb3df10520d19e593a1513e6efe8bbcf00f91bbafb85cc41c1f26bbad78ce821.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LocationsTableReadServiceRoleFD6EC740",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": "LocationsTable",
+      "PRIMARY_KEY": "locationId",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "LocationsTable-Read",
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "LocationsTableReadServiceRoleDefaultPolicyF8E83DBA",
+    "LocationsTableReadServiceRoleFD6EC740"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Read/Resource",
+    "aws:asset:path": "asset.cb3df10520d19e593a1513e6efe8bbcf00f91bbafb85cc41c1f26bbad78ce821",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LocationsTableUpdateServiceRoleAD970CFE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Update/ServiceRole/Resource"
+   }
+  },
+  "LocationsTableUpdateServiceRoleDefaultPolicyF3A9BC30": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LocationsTable963AECFA",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LocationsTableUpdateServiceRoleDefaultPolicyF3A9BC30",
+    "Roles": [
+     {
+      "Ref": "LocationsTableUpdateServiceRoleAD970CFE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Update/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LocationsTableUpdate1CC76FAE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "2db18dc37a3179fe5688bbc91594652e32a155ec609b9c127e059ddc8602c5bf.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LocationsTableUpdateServiceRoleAD970CFE",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": "LocationsTable",
+      "PRIMARY_KEY": "locationId",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "LocationsTable-Update",
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "LocationsTableUpdateServiceRoleDefaultPolicyF3A9BC30",
+    "LocationsTableUpdateServiceRoleAD970CFE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Update/Resource",
+    "aws:asset:path": "asset.2db18dc37a3179fe5688bbc91594652e32a155ec609b9c127e059ddc8602c5bf",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LocationsTableDeleteServiceRole549C244E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Delete/ServiceRole/Resource"
+   }
+  },
+  "LocationsTableDeleteServiceRoleDefaultPolicyE7082B82": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LocationsTable963AECFA",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LocationsTableDeleteServiceRoleDefaultPolicyE7082B82",
+    "Roles": [
+     {
+      "Ref": "LocationsTableDeleteServiceRole549C244E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Delete/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LocationsTableDelete18FF2907": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "bbb493f8471781fbb70106a9f968936b6d3c0f763d67713141e380cfa47a9773.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LocationsTableDeleteServiceRole549C244E",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": "LocationsTable",
+      "PRIMARY_KEY": "locationId",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "LocationsTable-Delete",
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "LocationsTableDeleteServiceRoleDefaultPolicyE7082B82",
+    "LocationsTableDeleteServiceRole549C244E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/LocationsTable-Delete/Resource",
+    "aws:asset:path": "asset.bbb493f8471781fbb70106a9f968936b6d3c0f763d67713141e380cfa47a9773",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "helloLambdaServiceRoleBB046714": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/helloLambda/ServiceRole/Resource"
+   }
+  },
+  "helloLambda79DCE371": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "ae5f6930c8e7d29f0f8f6e8dce0b9cea33faf4eb95fc5d689c7ef6c7d9cc60d4.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "helloLambdaServiceRoleBB046714",
+      "Arn"
+     ]
+    },
+    "Handler": "hello.main",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "helloLambdaServiceRoleBB046714"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/helloLambda/Resource",
+    "aws:asset:path": "asset.ae5f6930c8e7d29f0f8f6e8dce0b9cea33faf4eb95fc5d689c7ef6c7d9cc60d4",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "helloLambdaNodeJsServiceRole17C143C3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/helloLambdaNodeJs/ServiceRole/Resource"
+   }
+  },
+  "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:listAllMyBuckets",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
+    "Roles": [
+     {
+      "Ref": "helloLambdaNodeJsServiceRole17C143C3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/helloLambdaNodeJs/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "helloLambdaNodeJs14E63891": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "85e94f7adc0508adb8c58eb9239035f965b3c398b63ea4d189414777c5334c87.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "helloLambdaNodeJsServiceRole17C143C3",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
+    "helloLambdaNodeJsServiceRole17C143C3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Locations/helloLambdaNodeJs/Resource",
+    "aws:asset:path": "asset.85e94f7adc0508adb8c58eb9239035f965b3c398b63ea4d189414777c5334c87",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQzW7DIBCEnyV3vFWSKj07qXrrj9LerTVs07UNWAYaWZbfvWCaNjntN6NlYNjAbgubFZ5dIVVbdFzD9O5RtiJa1YQ9n9DTGUeYjuR82bM4fJorLKW0wXjxSH1nR00Ro3ulYtqJkpchHrVhkLRH9y9+MzM/k/+yKlmZZsGo4/W2y3tpvtmO5Zhkpll0qGuFMCWLBs3OsTVp4SkY6RNfYBZqNKitilU/sM6pC1xSKmMVNQ5elvEX4LYVOkfeQZlG1LAPsiWfusw3ZV6D74MXy17qzeZ00zHywRrF+T3pOmjc3ff6HtYPsFs1jrkY4reyJjjm+QM52D1vqgEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "Locations/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "LocationsApiEndpoint3AF4F310": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "LocationsApi2E0FF0DA"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "LocationsApiDeploymentStageprodE076A7DE"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
